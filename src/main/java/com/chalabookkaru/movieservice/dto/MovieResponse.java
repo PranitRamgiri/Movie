@@ -2,22 +2,40 @@ package com.chalabookkaru.movieservice.dto;
 
 public class MovieResponse {
 
-    private String movieTitle;
-    private String message;
+    private Long movieId;
+    private String title;
+    private int duration;
+    private String certificate;
 
-    public String getMovieTitle() {
-        return movieTitle;
+    public Long getMovieId() {
+        return movieId;
     }
 
-    public void setMovieTitle(String movieTitle) {
-        this.movieTitle = movieTitle;
+    public void setMovieId(Long movieId) {
+        this.movieId = movieId;
     }
 
-    public String getMessage() {
-        return message;
+    public String getTitle() {
+        return title;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public String getCertificate() {
+        return certificate;
+    }
+
+    public void setCertificate(String certificate) {
+        this.certificate = certificate;
     }
 }

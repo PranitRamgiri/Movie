@@ -8,4 +8,6 @@ public interface MovieService {
     MovieResponse createMovie(CreateMovieRequest createMovieRequest);
 
     MovieResponse getMovieByTitle(String title);
+
+    MovieResponse getMovieById(Long movieId);
 }

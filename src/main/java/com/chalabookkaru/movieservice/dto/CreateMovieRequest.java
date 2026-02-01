@@ -22,23 +22,11 @@ public class CreateMovieRequest {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public Long getDuration() {
         return duration;
     }
 
-    public void setDuration(Long duration) {
-        this.duration = duration;
-    }
-
     public String getCertificate() {
         return certificate;
-    }
-
-    public void setCertificate(String certificate) {
-        this.certificate = certificate;
     }
 }

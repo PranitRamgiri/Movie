@@ -3,7 +3,8 @@ package com.chalabookkaru.movieservice.service;
 import com.chalabookkaru.movieservice.dto.CreateMovieRequest;
 import com.chalabookkaru.movieservice.dto.MovieResponse;
 import com.chalabookkaru.movieservice.entity.Movie;
-import com.chalabookkaru.movieservice.exception.MovieException;
+import com.chalabookkaru.movieservice.exception.MovieAlreadyExistsException;
+import com.chalabookkaru.movieservice.exception.MovieNotFoundException;
 import com.chalabookkaru.movieservice.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,7 @@ public class MovieServiceImpl implements MovieService {
 
         Optional<Movie> movieOptional = movieRepository.findByTitle(createMovieRequest.getTitle());
         if (movieOptional.isPresent()) {
-            throw new MovieException("Please enter new Movie title this one we already have", HttpStatus.CONFLICT);
+            throw new MovieAlreadyExistsException("Please enter new Movie title this one we already have", HttpStatus.CONFLICT);
         }
 
         Movie movieToSave = new Movie();
@@ -31,20 +32,36 @@ public class MovieServiceImpl implements MovieService {
         Movie savedMovie = movieRepository.save(movieToSave);
 
         MovieResponse movieResponse = new MovieResponse();
-        movieResponse.setMovieTitle(savedMovie.getTitle());
-        movieResponse.setMessage("Movie saved successfully");
+        movieResponse.setMovieId(savedMovie.getId());
+        movieResponse.setTitle(savedMovie.getTitle());
+        movieResponse.setDuration(savedMovie.getDuration());
+        movieResponse.setCertificate(savedMovie.getCertificate());
         return movieResponse;
     }
 
     @Override
     public MovieResponse getMovieByTitle(String title) {
-        Optional<Movie> movieOptional = movieRepository.findByTitle(title);
-        if (movieOptional.isEmpty()) {
-            throw new MovieException("Movie not found, please enter valid movie title", HttpStatus.NOT_FOUND);
-        }
+        Movie movie = movieRepository.findByTitle(title).orElseThrow(
+                () -> new MovieNotFoundException("Movie not found, please enter valid movie title", HttpStatus.NOT_FOUND)
+        );
         MovieResponse movieResponse = new MovieResponse();
-        movieResponse.setMovieTitle(movieOptional.get().getTitle());
-        movieResponse.setMessage("Movie found successfully");
+        movieResponse.setMovieId(movie.getId());
+        movieResponse.setTitle(movie.getTitle());
+        movieResponse.setDuration(movie.getDuration());
+        movieResponse.setCertificate(movie.getCertificate());
+        return movieResponse;
+    }
+
+    @Override
+    public MovieResponse getMovieById(Long movieId) {
+        Movie movie = movieRepository.findById(movieId).orElseThrow(
+                () -> new MovieNotFoundException("Movie not exists", HttpStatus.NOT_FOUND)
+        );
+        MovieResponse movieResponse = new MovieResponse();
+        movieResponse.setMovieId(movie.getId());
+        movieResponse.setTitle(movie.getTitle());
+        movieResponse.setDuration(movie.getDuration());
+        movieResponse.setCertificate(movie.getCertificate());
         return movieResponse;
     }
 }
