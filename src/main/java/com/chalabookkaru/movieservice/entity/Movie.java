@@ -3,12 +3,12 @@ package com.chalabookkaru.movieservice.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "movie")
+@Table(name = "movies")
 public class Movie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(nullable = false, unique = true)
     private String title;
@@ -19,7 +19,7 @@ public class Movie {
     @Column(nullable = false)
     private String certificate;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 

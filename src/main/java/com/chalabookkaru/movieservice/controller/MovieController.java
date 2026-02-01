@@ -22,9 +22,15 @@ public class MovieController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{title}")
+    @GetMapping("/title/{title}")
     public ResponseEntity<MovieResponse> getMovie(@PathVariable String title) {
         MovieResponse response = movieService.getMovieByTitle(title);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/{movieId}")
+    public ResponseEntity<MovieResponse> getMovieById(@PathVariable Long movieId) {
+        MovieResponse response = movieService.getMovieById(movieId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
